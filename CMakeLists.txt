@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(loam_horizon)
-
+# set(CMAKE_BUILD_TYPE Debug)
 set(CMAKE_BUILD_TYPE "Release")
 set(CMAKE_CXX_FLAGS "-std=c++11 -fext-numeric-literals")
 set(CMAKE_CXX_FLAGS_RELEASE "-O2 -Wall -g")
@@ -23,13 +23,17 @@ find_package(Eigen3 REQUIRED)
 find_package(PCL REQUIRED)
 find_package(OpenCV REQUIRED)
 find_package(Ceres REQUIRED)
+find_package(GTSAM REQUIRED)
+
 
 include_directories(
   include
   ${catkin_INCLUDE_DIRS}
   ${PCL_INCLUDE_DIRS}
   ${CERES_INCLUDE_DIRS}
-  ${OpenCV_INCLUDE_DIRS})
+  ${OpenCV_INCLUDE_DIRS}
+  ${GTSAM_INCLUDE_DIR}
+  )
 
 
 catkin_package(
@@ -54,4 +58,9 @@ target_link_libraries(livox_repub ${catkin_LIBRARIES} ${PCL_LIBRARIES} ${OpenCV_
 add_executable(imu_process src/imu_processor/data_process_node.cpp src/imu_processor/data_process.cpp
                            src/imu_processor/gyr_int.cpp )
 target_link_libraries(imu_process ${catkin_LIBRARIES} ${PCL_LIBRARIES} ${OpenCV_LIBS})
+
+# IMU Preintegration
+add_executable(${PROJECT_NAME}_imuPreintegration src/imuPreinter/imuPreintegration.cpp)
+target_link_libraries(${PROJECT_NAME}_imuPreintegration ${catkin_LIBRARIES} ${PCL_LIBRARIES} ${OpenCV_LIBRARIES} gtsam)
+
 

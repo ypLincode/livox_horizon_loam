@@ -28,4 +28,11 @@
         <node launch-prefix="nice" pkg="rviz" type="rviz" name="rviz" args="-d $(find loam_horizon)/rviz_cfg/loam_horizon.rviz" />
     </group>
 
+      <!-- Parameters -->
+  <rosparam file="$(find loam_horizon)/config/imuPreinter.yaml" command="load" />
+
+  <!--- LOAM -->
+  <include file="$(find loam_horizon)/launch/include/module_loam.launch" />
+
+
 </launch>
